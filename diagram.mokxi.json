@@ -1,0 +1,317 @@
+{
+  "version": 1,
+  "name": "Entrega 2 - Control Bluetooth de dos LED",
+  "parts": [
+    {
+      "id": "uno1",
+      "type": "uno",
+      "props": {},
+      "x": -660,
+      "y": 0,
+      "rot": 0
+    },
+    {
+      "id": "bb1",
+      "type": "breadboard-half",
+      "props": {},
+      "x": 0,
+      "y": 0,
+      "rot": 0
+    },
+    {
+      "id": "bt1",
+      "type": "hc05",
+      "props": {},
+      "x": 200,
+      "y": -340,
+      "rot": 0
+    },
+    {
+      "id": "rv",
+      "type": "resistor",
+      "props": {
+        "value": 220
+      },
+      "x": 40,
+      "y": 40,
+      "rot": 0
+    },
+    {
+      "id": "rr",
+      "type": "resistor",
+      "props": {
+        "value": 220
+      },
+      "x": 340,
+      "y": 40,
+      "rot": 0
+    },
+    {
+      "id": "verde",
+      "type": "led",
+      "props": {
+        "color": "green"
+      },
+      "x": 160,
+      "y": 20,
+      "rot": 0
+    },
+    {
+      "id": "rojo",
+      "type": "led",
+      "props": {
+        "color": "red"
+      },
+      "x": 460,
+      "y": 20,
+      "rot": 0
+    },
+    {
+      "id": "r_tx",
+      "type": "resistor",
+      "props": {
+        "value": 1000
+      },
+      "x": -40,
+      "y": -240,
+      "rot": 0
+    },
+    {
+      "id": "r_gnd",
+      "type": "resistor",
+      "props": {
+        "value": 2000
+      },
+      "x": 60,
+      "y": -160,
+      "rot": 0
+    }
+  ],
+  "wires": [
+    {
+      "id": "w1",
+      "from": "uno1:5V",
+      "to": "bb1:tp3",
+      "color": "#e14b4b",
+      "bends": [
+        {
+          "x": -500,
+          "y": 480
+        },
+        {
+          "x": 80,
+          "y": 480
+        }
+      ]
+    },
+    {
+      "id": "w2",
+      "from": "uno1:GNDb",
+      "to": "bb1:tn5",
+      "color": "#263344",
+      "bends": [
+        {
+          "x": -480,
+          "y": 520
+        },
+        {
+          "x": 120,
+          "y": 520
+        }
+      ]
+    },
+    {
+      "id": "w3",
+      "from": "bt1:VCC",
+      "to": "bb1:tp10",
+      "color": "#e14b4b",
+      "bends": [
+        {
+          "x": 260,
+          "y": -80
+        },
+        {
+          "x": 240,
+          "y": -80
+        }
+      ]
+    },
+    {
+      "id": "w4",
+      "from": "bt1:GND",
+      "to": "bb1:tn13",
+      "color": "#263344",
+      "bends": [
+        {
+          "x": 280,
+          "y": -60
+        },
+        {
+          "x": 320,
+          "y": -60
+        }
+      ]
+    },
+    {
+      "id": "w5",
+      "from": "bt1:TXD",
+      "to": "uno1:2",
+      "color": "#20b2c6",
+      "bends": [
+        {
+          "x": 300,
+          "y": -140
+        },
+        {
+          "x": -240,
+          "y": -140
+        }
+      ]
+    },
+    {
+      "id": "w6",
+      "from": "uno1:3",
+      "to": "r_tx:1",
+      "color": "#e8a33d",
+      "bends": [
+        {
+          "x": -260,
+          "y": -220
+        },
+        {
+          "x": -40,
+          "y": -220
+        }
+      ]
+    },
+    {
+      "id": "w7",
+      "from": "r_tx:2",
+      "to": "bt1:RXD",
+      "color": "#e8a33d",
+      "bends": [
+        {
+          "x": 180,
+          "y": -220
+        },
+        {
+          "x": 320,
+          "y": -220
+        }
+      ]
+    },
+    {
+      "id": "w8",
+      "from": "r_tx:2",
+      "to": "r_gnd:1",
+      "color": "#e8a33d",
+      "bends": [
+        {
+          "x": 40,
+          "y": -140
+        }
+      ]
+    },
+    {
+      "id": "w9",
+      "from": "r_gnd:2",
+      "to": "bb1:tn17",
+      "color": "#263344",
+      "bends": [
+        {
+          "x": 140,
+          "y": -40
+        },
+        {
+          "x": 400,
+          "y": -40
+        }
+      ]
+    },
+    {
+      "id": "w10",
+      "from": "uno1:8",
+      "to": "rv:1",
+      "color": "#26823f",
+      "bends": [
+        {
+          "x": -380,
+          "y": -100
+        },
+        {
+          "x": 40,
+          "y": -100
+        }
+      ]
+    },
+    {
+      "id": "w11",
+      "from": "rv:2",
+      "to": "verde:A",
+      "color": "#26823f",
+      "bends": []
+    },
+    {
+      "id": "w12",
+      "from": "verde:C",
+      "to": "bb1:tn20",
+      "color": "#263344",
+      "bends": [
+        {
+          "x": 200,
+          "y": 160
+        },
+        {
+          "x": 460,
+          "y": 160
+        }
+      ]
+    },
+    {
+      "id": "w13",
+      "from": "uno1:9",
+      "to": "rr:1",
+      "color": "#d1333f",
+      "bends": [
+        {
+          "x": -400,
+          "y": -120
+        },
+        {
+          "x": 340,
+          "y": -120
+        }
+      ]
+    },
+    {
+      "id": "w14",
+      "from": "rr:2",
+      "to": "rojo:A",
+      "color": "#d1333f",
+      "bends": []
+    },
+    {
+      "id": "w15",
+      "from": "rojo:C",
+      "to": "bb1:tn23",
+      "color": "#263344",
+      "bends": [
+        {
+          "x": 500,
+          "y": 180
+        },
+        {
+          "x": 520,
+          "y": 180
+        }
+      ]
+    }
+  ],
+  "projects": {
+    "uno1": {
+      "files": {
+        "sketch.ino": "/* Entrega 2 - Internet de las Cosas\n * Johan Sebastian Soto Ramirez\n * UNO: LED verde D8, rojo D9; HC-05 TXD -> D2, RXD <- D3.\n * En montaje fisico: divisor de 1 kohm/2 kohm entre D3 y RXD.\n * Configurar el HC-05 en modo datos, 9600 baudios, 8N1.\n * Cada comando ocupa un byte. CR, LF y espacios se ignoran.\n */\n#include <SoftwareSerial.h>\n\nconst byte LED_VERDE = 8;\nconst byte LED_ROJO = 9;\nSoftwareSerial bluetooth(2, 3); // RX de Arduino, TX de Arduino\nunsigned int registro = 0;\n\nvoid setup() {\n  pinMode(LED_VERDE, OUTPUT);\n  pinMode(LED_ROJO, OUTPUT);\n  digitalWrite(LED_VERDE, LOW);\n  digitalWrite(LED_ROJO, LOW);\n  Serial.begin(9600);      // Monitor USB: evidencia de las pruebas\n  bluetooth.begin(9600);   // Enlace UART con el HC-05\n  Serial.println(F(\"LISTO: V/B=verde R=rojo A=ambos 0=apagar\"));\n  Serial.println(F(\"id,tiempo_ms,comando,verde,rojo,resultado\"));\n}\n\nvoid procesarComando(char comando) {\n  if (comando == '\\r' || comando == '\\n' || comando == ' ') return;\n  bool valido = true;\n  switch (comando) {\n    case 'V': // V de verde; B conserva la letra de la transcripcion\n    case 'B':\n      digitalWrite(LED_VERDE, HIGH);\n      digitalWrite(LED_ROJO, LOW);\n      break;\n    case 'R':\n      digitalWrite(LED_VERDE, LOW);\n      digitalWrite(LED_ROJO, HIGH);\n      break;\n    case 'A':\n      digitalWrite(LED_VERDE, HIGH);\n      digitalWrite(LED_ROJO, HIGH);\n      break;\n    case '0':\n      digitalWrite(LED_VERDE, LOW);\n      digitalWrite(LED_ROJO, LOW);\n      break;\n    default:\n      valido = false; // Un comando desconocido conserva las salidas\n  }\n  registro++;\n  Serial.print(registro); Serial.print(',');\n  Serial.print(millis()); Serial.print(',');\n  Serial.print(comando); Serial.print(',');\n  Serial.print(digitalRead(LED_VERDE)); Serial.print(',');\n  Serial.print(digitalRead(LED_ROJO)); Serial.print(',');\n  Serial.println(valido ? F(\"OK\") : F(\"INVALIDO\"));\n  // La terminal Bluetooth recibe tambien una confirmacion.\n  bluetooth.print(comando);\n  bluetooth.println(valido ? F(\":OK\") : F(\":INVALIDO\"));\n}\n\nvoid loop() {\n  if (bluetooth.available() > 0) {\n    procesarComando((char)bluetooth.read());\n  }\n}\n"
+      }
+    }
+  }
+}
