@@ -155,7 +155,7 @@
     {
       "id": "w5",
       "from": "bt1:TXD",
-      "to": "uno1:2",
+      "to": "uno1:0",
       "color": "#20b2c6",
       "bends": [
         {
@@ -163,19 +163,19 @@
           "y": -140
         },
         {
-          "x": -240,
+          "x": -200,
           "y": -140
         }
       ]
     },
     {
       "id": "w6",
-      "from": "uno1:3",
+      "from": "uno1:1",
       "to": "r_tx:1",
       "color": "#e8a33d",
       "bends": [
         {
-          "x": -260,
+          "x": -220,
           "y": -220
         },
         {
@@ -230,12 +230,12 @@
     },
     {
       "id": "w10",
-      "from": "uno1:8",
+      "from": "uno1:2",
       "to": "rv:1",
       "color": "#26823f",
       "bends": [
         {
-          "x": -380,
+          "x": -240,
           "y": -100
         },
         {
@@ -269,12 +269,12 @@
     },
     {
       "id": "w13",
-      "from": "uno1:9",
+      "from": "uno1:3",
       "to": "rr:1",
       "color": "#d1333f",
       "bends": [
         {
-          "x": -400,
+          "x": -260,
           "y": -120
         },
         {
@@ -310,7 +310,7 @@
   "projects": {
     "uno1": {
       "files": {
-        "sketch.ino": "/* Entrega 2 - Internet de las Cosas\n * Johan Sebastian Soto Ramirez\n * UNO: LED verde D8, rojo D9; HC-05 TXD -> D2, RXD <- D3.\n * En montaje fisico: divisor de 1 kohm/2 kohm entre D3 y RXD.\n * Configurar el HC-05 en modo datos, 9600 baudios, 8N1.\n * Cada comando ocupa un byte. CR, LF y espacios se ignoran.\n */\n#include <SoftwareSerial.h>\n\nconst byte LED_VERDE = 8;\nconst byte LED_ROJO = 9;\nSoftwareSerial bluetooth(2, 3); // RX de Arduino, TX de Arduino\nunsigned int registro = 0;\n\nvoid setup() {\n  pinMode(LED_VERDE, OUTPUT);\n  pinMode(LED_ROJO, OUTPUT);\n  digitalWrite(LED_VERDE, LOW);\n  digitalWrite(LED_ROJO, LOW);\n  Serial.begin(9600);      // Monitor USB: evidencia de las pruebas\n  bluetooth.begin(9600);   // Enlace UART con el HC-05\n  Serial.println(F(\"LISTO: V/B=verde R=rojo A=ambos 0=apagar\"));\n  Serial.println(F(\"id,tiempo_ms,comando,verde,rojo,resultado\"));\n}\n\nvoid procesarComando(char comando) {\n  if (comando == '\\r' || comando == '\\n' || comando == ' ') return;\n  bool valido = true;\n  switch (comando) {\n    case 'V': // V de verde; B conserva la letra de la transcripcion\n    case 'B':\n      digitalWrite(LED_VERDE, HIGH);\n      digitalWrite(LED_ROJO, LOW);\n      break;\n    case 'R':\n      digitalWrite(LED_VERDE, LOW);\n      digitalWrite(LED_ROJO, HIGH);\n      break;\n    case 'A':\n      digitalWrite(LED_VERDE, HIGH);\n      digitalWrite(LED_ROJO, HIGH);\n      break;\n    case '0':\n      digitalWrite(LED_VERDE, LOW);\n      digitalWrite(LED_ROJO, LOW);\n      break;\n    default:\n      valido = false; // Un comando desconocido conserva las salidas\n  }\n  registro++;\n  Serial.print(registro); Serial.print(',');\n  Serial.print(millis()); Serial.print(',');\n  Serial.print(comando); Serial.print(',');\n  Serial.print(digitalRead(LED_VERDE)); Serial.print(',');\n  Serial.print(digitalRead(LED_ROJO)); Serial.print(',');\n  Serial.println(valido ? F(\"OK\") : F(\"INVALIDO\"));\n  // La terminal Bluetooth recibe tambien una confirmacion.\n  bluetooth.print(comando);\n  bluetooth.println(valido ? F(\":OK\") : F(\":INVALIDO\"));\n}\n\nvoid loop() {\n  if (bluetooth.available() > 0) {\n    procesarComando((char)bluetooth.read());\n  }\n}\n"
+        "sketch.ino": "/* Entrega 2 - Internet de las Cosas\n * Johan Sebastian Soto Ramirez\n * Pines de la guia: verde D2, rojo D3; HC-05 TXD -> RX0.\n * TX1 -> divisor de 1 kohm/2 kohm -> RXD del HC-05.\n * Configurar el HC-05 en modo datos, 9600 baudios, 8N1.\n * Cada comando ocupa un byte. CR, LF y espacios se ignoran.\n */\nconst byte LED_VERDE = 2;\nconst byte LED_ROJO = 3;\nunsigned int registro = 0;\n\nvoid setup() {\n  pinMode(LED_VERDE, OUTPUT);\n  pinMode(LED_ROJO, OUTPUT);\n  digitalWrite(LED_VERDE, LOW);\n  digitalWrite(LED_ROJO, LOW);\n  Serial.begin(9600); // UART de la placa: RX0 y TX1, como en la guia\n  Serial.println(F(\"LISTO: V/B=verde R=rojo A=ambos 0=apagar\"));\n  Serial.println(F(\"id,tiempo_ms,comando,verde,rojo,resultado\"));\n}\n\nvoid procesarComando(char comando) {\n  if (comando == '\\r' || comando == '\\n' || comando == ' ') return;\n  bool valido = true;\n  switch (comando) {\n    case 'V': // V de verde; B conserva la letra de la transcripcion\n    case 'B':\n      digitalWrite(LED_VERDE, HIGH);\n      digitalWrite(LED_ROJO, LOW);\n      break;\n    case 'R':\n      digitalWrite(LED_VERDE, LOW);\n      digitalWrite(LED_ROJO, HIGH);\n      break;\n    case 'A':\n      digitalWrite(LED_VERDE, HIGH);\n      digitalWrite(LED_ROJO, HIGH);\n      break;\n    case '0':\n      digitalWrite(LED_VERDE, LOW);\n      digitalWrite(LED_ROJO, LOW);\n      break;\n    default:\n      valido = false; // Un comando desconocido conserva las salidas\n  }\n  registro++;\n  Serial.print(registro); Serial.print(',');\n  Serial.print(millis()); Serial.print(',');\n  Serial.print(comando); Serial.print(',');\n  Serial.print(digitalRead(LED_VERDE)); Serial.print(',');\n  Serial.print(digitalRead(LED_ROJO)); Serial.print(',');\n  Serial.println(valido ? F(\"OK\") : F(\"INVALIDO\"));\n  // TX1 envia el registro y esta confirmacion al HC-05.\n  // El monitor serial permite observar la misma comunicacion.\n  Serial.print(comando);\n  Serial.println(valido ? F(\":OK\") : F(\":INVALIDO\"));\n}\n\nvoid loop() {\n  if (Serial.available() > 0) {\n    procesarComando((char)Serial.read());\n  }\n}\n"
       }
     }
   }

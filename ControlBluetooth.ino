@@ -1,15 +1,12 @@
 /* Entrega 2 - Internet de las Cosas
  * Johan Sebastian Soto Ramirez
- * UNO: LED verde D8, rojo D9; HC-05 TXD -> D2, RXD <- D3.
- * En montaje fisico: divisor de 1 kohm/2 kohm entre D3 y RXD.
+ * Pines de la guia: verde D2, rojo D3; HC-05 TXD -> RX0.
+ * TX1 -> divisor de 1 kohm/2 kohm -> RXD del HC-05.
  * Configurar el HC-05 en modo datos, 9600 baudios, 8N1.
  * Cada comando ocupa un byte. CR, LF y espacios se ignoran.
  */
-#include <SoftwareSerial.h>
-
-const byte LED_VERDE = 8;
-const byte LED_ROJO = 9;
-SoftwareSerial bluetooth(2, 3); // RX de Arduino, TX de Arduino
+const byte LED_VERDE = 2;
+const byte LED_ROJO = 3;
 unsigned int registro = 0;
 
 void setup() {
@@ -17,8 +14,7 @@ void setup() {
   pinMode(LED_ROJO, OUTPUT);
   digitalWrite(LED_VERDE, LOW);
   digitalWrite(LED_ROJO, LOW);
-  Serial.begin(9600);      // Monitor USB: evidencia de las pruebas
-  bluetooth.begin(9600);   // Enlace UART con el HC-05
+  Serial.begin(9600); // UART de la placa: RX0 y TX1, como en la guia
   Serial.println(F("LISTO: V/B=verde R=rojo A=ambos 0=apagar"));
   Serial.println(F("id,tiempo_ms,comando,verde,rojo,resultado"));
 }
@@ -54,13 +50,14 @@ void procesarComando(char comando) {
   Serial.print(digitalRead(LED_VERDE)); Serial.print(',');
   Serial.print(digitalRead(LED_ROJO)); Serial.print(',');
   Serial.println(valido ? F("OK") : F("INVALIDO"));
-  // La terminal Bluetooth recibe tambien una confirmacion.
-  bluetooth.print(comando);
-  bluetooth.println(valido ? F(":OK") : F(":INVALIDO"));
+  // TX1 envia el registro y esta confirmacion al HC-05.
+  // El monitor serial permite observar la misma comunicacion.
+  Serial.print(comando);
+  Serial.println(valido ? F(":OK") : F(":INVALIDO"));
 }
 
 void loop() {
-  if (bluetooth.available() > 0) {
-    procesarComando((char)bluetooth.read());
+  if (Serial.available() > 0) {
+    procesarComando((char)Serial.read());
   }
 }

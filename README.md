@@ -5,6 +5,8 @@
 **Profesor:** Jesús Antonio Figueroa Guerrero
 
 Control de dos luces LED mediante Arduino Uno y un HC-05 simulado en Mokxi.
+La base académica son las lecturas de los escenarios 1 a 5, la guía de la actividad y la sesión de clase.
+Se conservan los pines del diagrama: Bluetooth en RX0/TX1 y LED en D2/D3.
 Se realizaron 50 pruebas principales: diez de B, R, A, 0 y X, además de una comprobación del alias V.
 Las 50 pruebas cumplieron el resultado esperado en la simulación.
 
@@ -55,7 +57,8 @@ El protocolo usa un carácter por orden. CR, LF y el carácter espacio se ignora
 | resultados/capturas/ | Una imagen por prueba, diseño inicial, alias V y terminal Bluetooth. |
 | resultados/graficas/ | Gráficas PNG/SVG y recortes identificados de capturas auténticas. |
 | resultados/verificacion.json | Comprobaciones de los datos y del código exportado. |
-| FUENTES.md | Diez referencias del artículo, incluidas tres publicaciones científicas. |
+| FUENTES.md | Quince referencias, incluidas cinco lecturas del curso y tres publicaciones científicas. |
+| BASE_ACADEMICA.md | Relación con cada escenario y pasos para verificar el sketch en Arduino. |
 | REQUISITOS.md | Correspondencia entre indicaciones y evidencias. |
 | pruebas/ | Scripts que construyen el circuito, ejecutan pruebas y generan el informe. |
 
@@ -64,10 +67,10 @@ Entrega_2_completa.zip conserva esta organización de carpetas e incluye todas l
 
 ## Conexiones
 
-- D8 → resistencia de 220 Ω → ánodo verde. Cátodo a GND.
-- D9 → resistencia de 220 Ω → ánodo rojo. Cátodo a GND.
-- TXD del HC-05 → D2, RX de SoftwareSerial.
-- D3, TX de SoftwareSerial → 1 kΩ → nodo de RXD del HC-05.
+- D2 → resistencia de 220 Ω → ánodo verde. Cátodo a GND.
+- D3 → resistencia de 220 Ω → ánodo rojo. Cátodo a GND.
+- TXD del HC-05 → RX0 del Arduino Uno.
+- TX1 del Arduino Uno → 1 kΩ → nodo de RXD del HC-05.
 - Nodo de RXD → 2 kΩ → GND. Divisor nominal: 3,33 V cuando D3 entrega 5 V.
 - VCC del adaptador HC-05 → 5 V. GND común.
 
@@ -81,6 +84,11 @@ Se ejecutaron diez ciclos de **B → R → A → X → 0**. X se envía con ambo
 Playwright escribió las órdenes en el panel Bluetooth y contrastó las líneas visibles del monitor con los estados esperados.
 Se guardó una captura real por orden. Después se verificó el alias V como prueba 51.
 El número tiempo_ms procede de millis() del Arduino simulado: no representa latencia de radio.
+La UART es compartida por el HC-05 y la observación en el monitor USB. Las órdenes se envían desde el panel Bluetooth.
+Los mensajes bajo uno1 y bt1 corresponden a la emisión y recepción de la misma comunicación; el CSV conserva una fila del Uno por orden.
+
+El sketch también se compiló con Arduino CLI 1.6.0 y el núcleo Arduino AVR 1.8.8 para arduino:avr:uno.
+El resultado fue 2668 bytes de programa y 190 bytes de variables globales. El registro original está en resultados/compilacion_arduino_uno_original.txt.
 
 Para repetir la automatización, instala Node.js, Chrome y Playwright (npm install playwright), y ejecuta:
 
@@ -97,7 +105,7 @@ El documento editable también puede abrirse con una suite gratuita; al exportar
 
 ## Alcance
 
-Se comprobó la ruta **terminal Bluetooth virtual → HC-05 modelado → UART → Arduino → LED**, y la confirmación de retorno.
+Se comprobó la ruta **terminal Bluetooth virtual → HC-05 modelado → RX0/TX1 del Arduino → LED D2/D3**, y la confirmación de retorno.
 El simulador no transmite radiofrecuencia ni se conecta a un teléfono físico.
 No se midieron alcance, interferencias, consumo eléctrico ni latencia inalámbrica.
 Las capturas y los registros corresponden a una simulación ejecutada, sin muestras ni imágenes inventadas.
